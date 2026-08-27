@@ -1,105 +1,87 @@
-# Painel de Avaliação — Simulação Scrum Competitiva (React)
+# Painel de Avaliação — Simulação Scrum Competitiva
 
-Portabilidade para React do painel original em HTML/CSS/JavaScript usado na Simulação Scrum Competitiva.
+O objetivo do nosso projeto foi migrar o painel de avaliação da Simulação Scrum Competitiva, que originalmente rodava em HTML, CSS e JavaScript puro, para o React. A gente manteve todas as telas e regras que já funcionavam no sistema antigo, só que agora com o código organizado em componentes para ficar mais fácil de manter.
 
-## Funcionalidades
+## Tecnologias que usamos
 
-- Configuração de turma, data, empresas, times e pesos da nota.
-- Lista de alunos com atribuição de papéis, empresa e time.
-- Importação de lista de alunos via Excel (`.xlsx`/`.xls`).
-- Escalação visual com as imagens originais fornecidas.
-- Avaliação de Scrum Master, Owner, Product Owner e Developers.
-- Avaliação dos compradores por papel e por produto.
-- Regras automáticas de corrupção e sabotagem.
-- Resultado final com média ponderada e ajustes automáticos.
-- Controle de tamanho da fonte.
-- Salvamento automático no `localStorage` a cada alteração relevante.
-- Botão de salvamento manual no `localStorage`.
-- Exportação e importação de backup em JSON.
-- Recuperação automática dos dados ao reabrir o navegador.
+React + Vite
 
-## Requisitos
+JavaScript e CSS
 
-- Node.js 20.19+ ou 22.12+.
-- npm.
+LocalStorage para salvar os dados
 
-## Instalação
+SheetJS (XLSX) para ler planilhas
 
-No terminal, dentro da pasta do projeto:
 
-```bash
-npm install
-```
+## Funcionalidades do sistema
 
-## Rodar localmente
+Configura a turma, data, empresas, equipes e os pesos das notas.
 
-```bash
-npm run dev
-```
+Cadastra os alunos, define os papéis de cada um e aceita importação por planilha do Excel (.xlsx / .xls).
 
-Abra o endereço informado pelo Vite no terminal (normalmente `http://localhost:5173`).
+Mostra a escalação dos times usando as imagens originais fornecidas para os setores e fabricantes.
 
-## Gerar versão de produção
+Permite avaliar Scrum Master, Product Owner, Stakeholders, Developers, compradores e a entrega dos produtos.
 
-```bash
-npm run build
-```
+Aplica os descontos/regras de corrupção e sabotagem.
 
-A pasta gerada será `dist/`. Ela não deve ser versionada no GitHub.
+Calcula a nota final de cada empresa automaticamente.
 
-## Testar a versão de produção
+Permite ajustar o tamanho da fonte da tela para facilitar a visualização.
 
-```bash
-npm run preview
-```
 
-## Persistência dos dados
+## Como os dados são salvos
 
-O estado completo do painel é gravado no `localStorage` do navegador de duas formas:
+Os dados ficam gravados diretamente no LocalStorage do navegador. O sistema salva sozinho a cada mudança importante, então é possível atualizar a página ou fechar o navegador sem problemas.
 
-1. Automaticamente, após alterações no painel.
-2. Manualmente, pelo botão **Salvar agora**.
+O sistema também possui um botão de salvamento manual e a opção de exportar tudo em um arquivo .json. O arquivo JSON também pode ser carregado posteriormente para restaurar o estado de aplicação
 
-Também é possível exportar um arquivo JSON como backup e carregá-lo novamente depois.
+## Estrutura das pastas
 
-## Lista de alunos
+O projeto foi dividido em diversos componentes para não deixar a lógica misturada com a parte visual:
 
-A lista original está pré-carregada no código e a planilha original foi mantida em:
-
-`public/data/alunos.xlsx`
-
-Na aba **Alunos**, é possível importar outra planilha Excel usando a mesma lógica do sistema original.
-
-## Imagens originais
-
-As imagens fornecidas com o sistema original foram mantidas em `public/images/` e são usadas na aba **Escalação**.
-
-## Estrutura principal
-
-```text
 src/
 ├── components/
 │   ├── common/
-│   └── tabs/
+│   ├── tabs/
+│   ├── Header.jsx
+│   └── Tabs.jsx
 ├── context/
+│   └── AppContext.jsx
 ├── data/
+│   ├── constants.js
+│   └── initialData.js
 ├── styles/
+│   └── global.css
 ├── utils/
+│   ├── scoring.js
+│   └── storage.js
 ├── App.jsx
 └── main.jsx
-```
 
-## Netlify
+Para rodar o projeto será necessário o Node.js já instalado no seu computador.
 
-O repositório contém `netlify.toml` com:
+1. Baixe o projeto e entre na pasta
 
-- comando de build: `npm run build`
-- pasta publicada: `dist`
 
-No Netlify, basta conectar o repositório GitHub e fazer o deploy.
 
-## Git
+git clone <LINK_DO_REPOSITORIO>
+cd <NOME_DA_PASTA>
 
-O `.gitignore` já impede o versionamento de `node_modules`, `dist`, arquivos de ambiente e arquivos temporários.
+2. Instale as dependências
 
-Nunca envie `node_modules/` ou `dist/` para o repositório.
+
+
+npm install
+
+3. Inicie o projeto
+
+
+
+npm run dev
+
+O terminal irá mostrar o endereço local para o projeto abrir no navegador.
+
+Para gerar os arquivos finais de produção, basta usar o comando:
+
+npm run build
